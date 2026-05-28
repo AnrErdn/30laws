@@ -1,7 +1,9 @@
 # 30 LAWS — Project Handoff
-> Last updated: 2025-05-28  
+> Last updated: 2026-05-28  
 > Author: Anar-Erdene G.  
-> Stack: Next.js 14 · Tailwind CSS · Framer Motion · TypeScript
+> Stack: Next.js 14 · Tailwind CSS · Framer Motion · TypeScript  
+> Repo: https://github.com/AnrErdn/30laws  
+> Run: `cd C:\Users\ganar\dev\30laws` → `npm run dev` → http://localhost:3000
 
 ---
 
@@ -11,34 +13,36 @@ A virtual book that teaches all 30 Laws of UX, written in Mongolian. It looks an
 
 ---
 
-## Current state (what is built)
+## What is fully built right now
 
-### Commits so far
-1. `85819e2` — Next.js scaffold
-2. `1154ec4` — First full build: design system, cover, TOC, Law 01 template, illustration, demo
-3. `5acbfba` — Real book layout: CSS 3D page flip, Law 01 as 4 spreads, texture, sound, back cover
+### The book itself
+- **Physical book object** centered on pure black background with drop shadow. Not fullscreen — you see it as an object.
+- **CSS 3D page flip** — right page physically peels and rotates 180° around the spine axis. Backward flip mirrors on the left.
+- **Paper textures** — `paper-cover.jpg` (Texturelabs 360M) on cover, `paper-page.jpg` (Texturelabs 374M) on interior. Dark tint overlay so grain is visible but not distracting.
+- **Keyboard navigation** — `←` `→` arrow keys flip pages. `T` opens/closes TOC. `Esc` closes TOC.
+- **Click navigation arrows** — subtle arrows on left/right edges of the viewport.
+- **TOC overlay** (press `T` or the icon bottom-right) — full-screen dark overlay, all 30 laws grouped by category with accent color dots. Click any law to jump directly to it.
+- **Back cover** — author name, quote, year.
+- **Cover** — visually reads as a single front cover (left page is pure black, invisible against background).
 
-### What works right now
-- **Physical book** centered on black background. Not fullscreen — you see it as an object with a drop shadow.
-- **CSS 3D page flip** — the right page physically peels and rotates 180° around the spine axis. Backward flip mirrors on the left. Looks like turning a real page.
-- **Paper rustle sound** on every flip via Web Audio API (no audio files, synthesized from code).
-- **Texture** — `Texturelabs_Paper_360M.jpg` on cover, `Texturelabs_Paper_374M.jpg` on interior pages. Applied as background with a dark tint overlay so grain is visible but not distracting.
-- **Keyboard nav** — `←` `→` arrow keys flip pages. `T` opens/closes TOC overlay. `Esc` closes TOC.
-- **TOC overlay** — dark full-screen overlay listing all 30 laws grouped by category with accent color dots.
-- **Back cover** — author name (Anar-Erdene G.), quote, year.
-- **Law 01 (Aesthetic-Usability Effect)** — fully built as 4 spreads:
-  - Spread 1: Abstract SVG illustration + law title + definition + principle
-  - Spread 2: Apple packaging diagrammatic SVG drawing + physical example text + pull quote
-  - Spread 3: Stripe dashboard UI SVG sketch + digital example text + side-by-side contrast panel
-  - Spread 4: "FEEL THE LAW" left page + interactive demo (ugly vs. beautiful button) with CSS glass card
-- **Laws 02–30** — all content loaded from `data/laws.json`, shown as 1 spread each using `DefaultLawSpread`. Content exists and displays, illustrations are placeholder circles.
-- **Glass card** — CSS `backdrop-filter: blur + gradient border + inner glow`. Used on Law 01 Spread 4 demo. (See note below about liquid-glass-js.)
+### Law 01 — Aesthetic-Usability Effect (fully built, 4 spreads)
+| Spread | Left page | Right page |
+|---|---|---|
+| 1 | Abstract SVG illustration (rough vs refined shape) | Law title, definition, principle, category tag |
+| 2 | Apple packaging line-art SVG diagram | Physical example text + pull quote |
+| 3 | Stripe dashboard wireframe SVG | Digital example text + before/after contrast panel |
+| 4 | "FEEL THE LAW" header + context | Interactive demo: ugly vs beautiful button, CSS glass card |
 
-### Dead code to delete (from first build, no longer used)
-- `components/BookClient.tsx`
-- `components/CoverPage.tsx`
-- `components/ContentsPage.tsx`
-- `components/LawPage.tsx`
+### Laws 02–30 (content ready, design incomplete)
+- All 30 laws are loaded from `data/laws.json` in Mongolian — every field is populated (title, definition, principle, physical example, digital example, pull quote, category).
+- Each law shows as **1 spread** using `DefaultLawSpread`: left page has law number + a placeholder circle, right page has all the text content.
+- The content displays correctly. **The only missing piece is custom illustrations.**
+
+### UI layer (ambient/chrome)
+- **Loading screen** — Mac/Figma style entry screen. Black background, Playfair Display serif wordmark ("Laws of UX" italic + "30 / Laws" bold), thin 1px progress bar, minimal corner bracket frames. JS-animated via `requestAnimationFrame`. Fades out after ~1.9s. Unmounts completely after fade.
+- **Music player** — compact vinyl record widget top-left corner. Spinning animation while playing. Track name + artist. Prev / play-pause / next controls. Click vinyl or track name to expand playlist. 4 tracks loaded from `public/music/`. Auto-advances on track end.
+- **Page flip sound** — user-supplied MP3 (`public/sounds/page-flip.mp3`), played via `<Audio>` element on every page turn.
+- **UI click sounds** — smooth synthesized click (bandpass-filtered noise + descending sine, ~55ms). Fires on: TOC button, every law item in the TOC overlay. Not snappy — warm and keyboard-like.
 
 ---
 
@@ -48,42 +52,50 @@ A virtual book that teaches all 30 Laws of UX, written in Mongolian. It looks an
 app/
   layout.tsx          → fonts (Bebas Neue, Playfair Display, DM Sans, DM Mono), metadata
   page.tsx            → renders <BookEngine laws={laws} />
-  globals.css         → CSS variables, texture classes, glass card, scrollbar
+  globals.css         → CSS variables, texture classes, glass card, vinyl-spin keyframe,
+                        loading-progress keyframe, scrollbar
 
 components/
-  BookEngine.tsx      → THE MAIN ORCHESTRATOR. Manages spread index, flip state,
-                        flip direction, TOC open/close, keyboard events, arrow buttons.
-                        Builds the spread list from laws[] and renders SpreadLayout + FlippingPage.
+  BookEngine.tsx      → MAIN ORCHESTRATOR. Spread index, flip state, flip direction,
+                        TOC open/close, keyboard events, arrow buttons, sound hooks.
+                        Renders: LoadingScreen + SpreadLayout + FlippingPage + MusicPlayer + TocOverlay
+
+  LoadingScreen.tsx   → Entry loading screen. Playfair Display font. Corner bracket frames.
+                        JS progress bar animation. Fades and unmounts automatically.
+
+  MusicPlayer.tsx     → Vinyl record UI player. Top-left corner. Playlist panel on click.
+                        Uses useMusicPlayer hook.
+
+  TocOverlay.tsx      → Full-screen TOC overlay. Framer Motion fade. Laws grouped by category.
+                        Click sound on each law item.
 
   book/
-    SpreadLayout.tsx  → Left page + spine + right page layout. Handles page-edge depth shadows.
-    FlippingPage.tsx  → CSS 3D flip animation. Takes frontContent + backContent, direction,
-                        isFlipping bool, onComplete callback. Uses backface-visibility + rotateY.
+    SpreadLayout.tsx  → Left page + spine + right page layout. Page-edge depth shadows.
+    FlippingPage.tsx  → CSS 3D flip animation. frontContent + backContent, direction,
+                        isFlipping bool, onComplete callback. backface-visibility + rotateY.
 
   spreads/
-    CoverSpread.tsx         → Cover spread (left = decorative endpaper, right = 30 LAWS title)
+    CoverSpread.tsx         → Cover (left = pure black, right = "30 LAWS" title)
     BackCoverSpread.tsx     → Back cover (author info, quote) + right endpaper
-    TocSpread.tsx           → Table of contents (left = title/legend, right = full law list)
-    DefaultLawSpread.tsx    → Template for laws 02–30 (left = number + placeholder, right = all content)
+    TocSpread.tsx           → Table of contents spread
+    DefaultLawSpread.tsx    → Template for laws 02–30
 
     law01/
-      Spread1.tsx     → Intro: abstract SVG illustration, category tag, law title, definition, principle
-      Spread2.tsx     → Physical example: Apple packaging diagram SVG + text + pull quote
-      Spread3.tsx     → Digital example: Stripe dashboard SVG + text + contrast comparison
-      Spread4.tsx     → Interactive demo: glass card, ugly vs beautiful button, reveal on click
+      Spread1.tsx     → Intro illustration + title + definition + principle
+      Spread2.tsx     → Physical example: Apple packaging + text + pull quote
+      Spread3.tsx     → Digital example: Stripe dashboard + text + contrast panel
+      Spread4.tsx     → Interactive demo: glass card, ugly vs beautiful button
 
   illustrations/
-    AestheticUsabilityIllustration.tsx  → Abstract SVG (rough shape vs refined shape)
-    ApplePackagingDiagram.tsx           → Line-art diagram of iPhone box unboxing
-    StripeUIDiagram.tsx                 → Wireframe-style dashboard sketch
-
-  demos/
-    AestheticUsabilityDemo.tsx          → OLD demo component (not used in new spread system, can delete)
-
-  TocOverlay.tsx      → Full-screen TOC overlay with category grouping
+    AestheticUsabilityIllustration.tsx  → Abstract SVG (rough vs refined)
+    ApplePackagingDiagram.tsx           → iPhone box line-art
+    StripeUIDiagram.tsx                 → Wireframe dashboard sketch
 
 hooks/
-  useFlipSound.ts     → Web Audio API page flip sound (white noise → bandpass filtered)
+  useFlipSound.ts     → Page flip sound. Plays public/sounds/page-flip.mp3 via HTMLAudioElement.
+  useClickSound.ts    → UI click sound. Synthesized via Web Audio API (bandpass noise + sine).
+  useMusicPlayer.ts   → Background music state. Audio element, track list, play/pause,
+                        track switching, auto-advance on end.
 
 lib/
   laws.ts             → getLawBySlug(), getLawById(), getAdjacentLaws(), getLawsByCategory()
@@ -95,10 +107,24 @@ data/
   laws.json           → All 30 laws in Mongolian. Every field populated.
 
 public/
+  sounds/
+    page-flip.mp3     → Page turn sound effect (user-supplied)
+  music/
+    starry-night.mp3       → Starry Night — Jordan Critz
+    idea-25.mp3            → Idea 25 — Gibran Alcocer & Andrea Vanzo
+    drive-me-crazy.mp3     → Drive Me Crazy — Myles Lloyd
+    time-and-trust.mp3     → Time And Trust — Naomi Sharon
   textures/
-    paper-cover.jpg   → Texturelabs_Paper_360M (crumpled black paper → heavy grain for cover)
-    paper-page.jpg    → Texturelabs_Paper_374M (fine velvety black paper → interior pages)
+    paper-cover.jpg   → Texturelabs_Paper_360M (cover grain)
+    paper-page.jpg    → Texturelabs_Paper_374M (interior grain)
 ```
+
+### Dead code — delete these (from first build, replaced but not cleaned up)
+- `components/BookClient.tsx`
+- `components/CoverPage.tsx`
+- `components/ContentsPage.tsx`
+- `components/LawPage.tsx`
+- `components/demos/AestheticUsabilityDemo.tsx`
 
 ---
 
@@ -106,7 +132,7 @@ public/
 
 ### Colors
 ```
---color-cover-bg:      #000000     pure black — cover only
+--color-cover-bg:      #000000     pure black — cover + loading screen
 --color-page-bg:       #0E0E0C     near-black warm — interior pages
 --color-text-primary:  #F0EDE6     warm off-white — all body text
 --color-text-muted:    #6B6B65     muted warm gray — labels, page numbers
@@ -123,11 +149,11 @@ public/
 | Perception & Gestalt | Muted teal | `#3D7A6F` |
 | System & Engineering | Olive/moss | `#6B7A3A` |
 
-### Fonts (Google Fonts, loaded in layout.tsx)
-- **Bebas Neue** (`--font-bebas`) — law numbers, cover title, large display
-- **Playfair Display** (`--font-playfair`) — law titles, body serif, pull quotes
-- **DM Sans** (`--font-dm-sans`) — body text, labels, category tags, UI
-- **DM Mono** (`--font-dm-mono`) — page numbers, figure captions, code-like labels
+### Fonts (Google Fonts via next/font, loaded in layout.tsx)
+- **Bebas Neue** (`--font-bebas`) — law numbers, TOC header, large display elements
+- **Playfair Display** (`--font-playfair`) — law titles, body serif, pull quotes, loading screen wordmark
+- **DM Sans** (`--font-dm-sans`) — body text, labels, category tags, UI chrome
+- **DM Mono** (`--font-dm-mono`) — page numbers, figure captions, music player artist name
 
 ### Book dimensions (CSS variables in globals.css)
 ```css
@@ -137,13 +163,10 @@ public/
 --book-w: calc(var(--page-w) * 2 + var(--spine-w))
 ```
 
----
-
-## Spread navigation (how the book is ordered)
-
+### Spread navigation order
 | Index | ID | Content |
 |---|---|---|
-| 0 | `cover` | Front cover spread |
+| 0 | `cover` | Front cover |
 | 1 | `toc` | Table of contents |
 | 2 | `law01-s1` | Law 01 · Spread 1 (intro) |
 | 3 | `law01-s2` | Law 01 · Spread 2 (physical example) |
@@ -153,52 +176,94 @@ public/
 | 7 | `law-3` | Law 03 (1 spread) |
 | … | … | … |
 | 35 | `law-30` | Law 30 (1 spread) |
-| 36 | `back-cover` | Back cover spread |
+| 36 | `back-cover` | Back cover |
 
 ---
 
-## What still needs to be done
+## What needs to be done — in priority order
 
-### Must-do before this is presentable
-- [ ] **Back cover**: update author name display (currently "Anar-Erdene G." — check if this is right)
-- [ ] **Delete dead code**: `BookClient.tsx`, `CoverPage.tsx`, `ContentsPage.tsx`, `LawPage.tsx`, `demos/AestheticUsabilityDemo.tsx`
-- [ ] **Page flip backward bug**: the backward flip (left page flipping right) needs visual QA — confirm it looks correct in browser
-- [ ] **Cover click to open**: currently the cover just sits. The first arrow press flips to TOC. May want a "click to open" hint on the cover spread.
+### 1. Custom SVG illustrations for Laws 02–30 ← biggest visual gap
+Every law's left page currently shows a generic placeholder circle. Each needs a law-specific abstract geometric illustration — same style as `AestheticUsabilityIllustration.tsx` (clean SVG, abstract, conceptual, no color except page tones).
 
-### Next design session (laws 02–30)
-- [ ] **Custom SVG illustration** for each law's left page. Currently laws 02–30 show a generic circle placeholder. Each one needs a law-specific abstract geometric illustration.
-- [ ] **Multi-spread treatment for other laws**: right now only Law 01 gets 4 spreads. Decide if others also get multiple spreads, or if 1 spread each is fine.
-- [ ] **Interactive demos** for other laws. Planned in the original handoff:
-  - Hick's Law: menu that grows as options are added (decision time visible)
-  - Miller's Law: memory test with 5 vs 12 items
-  - Fitts's Law: click targets of different sizes
-  - Zeigarnik Effect: interrupted task
-- [ ] **Chapter opening pages**: original handoff mentioned alternating full-bleed spread for each category change (like an editorial chapter divider). Optional but would elevate the feel.
+The illustration goes in `components/illustrations/` as a `.tsx` file, then referenced in `DefaultLawSpread.tsx` (or in a per-law spread if you go multi-spread).
 
-### Technical debt
-- [ ] **liquid-glass-js** is not integrated. The library creates DOM nodes directly (vanilla JS) which conflicts with React's reconciler. To use it properly would need a `useEffect` + React portal wrapper that mounts the glass canvas behind React content. Currently using CSS `backdrop-filter` glass which looks similar on dark backgrounds. Decide if WebGL version is worth the complexity.
-- [ ] **Sound on mobile**: Web Audio API requires a user gesture before the AudioContext can resume. The current implementation handles this silently, but on mobile the first flip won't have sound. Need to add a tap-to-unlock gesture if mobile is in scope.
-- [ ] **Mobile layout**: the book is desktop-only right now. `--page-w` is viewport-relative so it scales down, but no swipe gesture is implemented for page flip on mobile.
-- [ ] **Swipe to flip** on touch devices: add `touchstart`/`touchend` handler to BookEngine.
-- [ ] **Vercel deployment**: not deployed yet. `npm run build` passes clean. Ready to deploy.
+Each illustration should visually encode the law's core idea. Examples:
+- **Hick's Law** → many small diverging paths from one point → decision paralysis
+- **Fitts's Law** → concentric circles, closer/larger = easier to hit
+- **Miller's Law** → 7 dots grouped vs 12 scattered
+- **Gestalt Proximity** → dots clustered into implied shapes
+- **Zeigarnik Effect** → incomplete circle / interrupted line
 
-### Polish pass (do last)
-- [ ] **Page flip shadow during turn**: a dynamic gradient that tracks the rotation angle would make the flip look more physical. Currently it's a static gradient on front/back faces.
-- [ ] **Cover "opening" animation**: first load, the book fades in from black. Currently just appears.
-- [ ] **Spine title**: the 14px spine strip could show "30 LAWS" rotated 90°. Very premium detail.
-- [ ] **Page count indicator**: small "spread X of Y" progress somewhere — or leave minimal.
+### 2. Delete dead code
+Delete these 5 files — they are never imported anywhere:
+- `components/BookClient.tsx`
+- `components/CoverPage.tsx`
+- `components/ContentsPage.tsx`
+- `components/LawPage.tsx`
+- `components/demos/AestheticUsabilityDemo.tsx`
+
+### 3. Interactive demos for key laws
+Law 01 has the ugly/beautiful button demo. The other high-priority laws for demos:
+
+| Law | Demo idea |
+|---|---|
+| Hick's Law | Menu that adds options — watch decision time increase |
+| Miller's Law | Memory test: remember 5 items vs 12 items |
+| Fitts's Law | Click targets at different sizes and distances |
+| Zeigarnik Effect | Task you start but can't finish — shows incomplete tasks stay in memory |
+| Jakob's Law | Familiar vs unfamiliar UI pattern comparison |
+
+Each demo lives in `components/spreads/law{XX}/Spread4.tsx` following the Law 01 pattern.
+
+### 4. Multi-spread treatment for select laws
+Right now only Law 01 gets 4 spreads. The rest get 1. Two options:
+- **Option A**: Give all laws 4 spreads (consistent, most work)
+- **Option B**: Give only the "hero" laws (top 8-10) the full treatment, keep others at 1 spread
+
+Recommendation: Option B. Pick the laws with the most visual potential or the most important to the subject matter, build them out fully, keep the rest at 1 spread.
+
+To add spreads for a law: add spread components in `components/spreads/law{XX}/`, then add entries in `buildSpreads()` in `BookEngine.tsx` before the `law-{n}` entry.
+
+### 5. Deploy to Vercel
+`npm run build` passes clean. Ready to deploy.
+```bash
+npx vercel          # first deploy, follow prompts
+npx vercel --prod   # after that
+```
+Or connect GitHub repo at vercel.com for auto-deploy on push to main.
+
+### 6. Cover "open book" hint
+The cover just sits. First arrow press flips to TOC. Consider adding a subtle "OPEN →" or pulsing arrow hint on the cover so new visitors know to click/press.
+
+### 7. Mobile (if in scope)
+Currently desktop-only. `--page-w` is viewport-relative so it scales down, but:
+- No swipe gesture for page flip. Need `touchstart`/`touchend` in `BookEngine.tsx`.
+- On mobile, first flip has no sound — Web Audio requires a prior user gesture. Need a tap-to-unlock.
+- Consider a vertical single-page layout below ~640px breakpoint.
 
 ---
 
-## Known issues / decisions made
+## Polish items (do last, nice-to-have)
 
-**Why not liquid-glass-js**: vanilla JS library that uses `document.createElement` and WebGL canvas management. React reconciler will unmount/remount components and orphan the canvas. Needs a dedicated wrapper component with `useRef` + React portal to work safely. Punted for now.
+- **Spine title**: the 14px spine strip could show "30 LAWS" rotated 90° — very premium detail
+- **Dynamic flip shadow**: the shadow on the flipping page is static. A gradient that tracks `rotateY` angle would look more physical
+- **Chapter divider spreads**: a full-bleed editorial spread each time the category changes (Behavior & Emotion → Cognitive Load etc.) — like editorial chapter openers
+- **Page count indicator**: small "6 / 36" or dot progress somewhere minimal
+- **Back cover**: confirm author name and quote are final
 
-**Why CSS glass instead**: `backdrop-filter: blur(18px) saturate(1.6)` + gradient border + inner glow. On dark backgrounds this is visually equivalent — the WebGL refraction mainly shows on light/colorful backgrounds where content bleeds through.
+---
 
-**Why always-open book format**: showing the book as a "closed" cover (portrait, single-page) and then animating it to "open" (landscape, two-page) required a complex CSS 3D keyframe that also changes the container width. The always-open format (both pages always visible) is how design books are displayed in stores — it's a valid and premium-feeling choice.
+## Known decisions and why
 
-**Texture blend approach**: the textures are near-black paper, so a simple `background-image` + dark `rgba()` color overlay via `::before` pseudo-element. The grain shows through the tint. `mix-blend-mode: overlay` was tried first but is invisible on near-black backgrounds — the pseudo-element approach is more reliable.
+**Cover is always two-page width, left page is black**: making the cover a true single-page (half-width) would require animating the container from single to double width on first flip — awkward and complex. Black left page = visually reads as single page, zero complexity.
+
+**CSS glass card instead of liquid-glass-js**: `liquid-glass-js` is a vanilla JS library that uses `document.createElement` directly. React's reconciler will unmount/remount it and orphan the WebGL canvas. Would need a `useRef` + portal wrapper to work safely. Punted. CSS `backdrop-filter: blur(18px) saturate(1.6)` + gradient border looks equivalent on dark backgrounds anyway.
+
+**Texture blend via `::before` pseudo-element**: the textures are near-black paper. `mix-blend-mode: overlay` is invisible on near-black backgrounds. `::before` with `rgba()` overlay is reliable regardless of base color.
+
+**Loading screen uses `requestAnimationFrame` for progress bar**: CSS `@keyframes` can miss its first-render trigger if the stylesheet hasn't fully parsed when the element mounts. `requestAnimationFrame` runs in the browser paint loop — always fires.
+
+**Page flip sound is an `<Audio>` element, not Web Audio API**: simpler code, real recorded sound, reusable across flips via `currentTime = 0` reset. The synthesized approach was replaced when a real audio file was available.
 
 ---
 
@@ -207,21 +272,22 @@ public/
 ```bash
 cd C:\Users\ganar\dev\30laws
 npm run dev         # http://localhost:3000
-npm run build       # production build (passes clean)
+npm run build       # check production build
 ```
 
 ## How to deploy (Vercel)
 
 ```bash
-npx vercel          # first time, follow prompts
-npx vercel --prod   # subsequent deployments
+npx vercel          # first time — follow prompts, connects to GitHub
+npx vercel --prod   # subsequent deploys
 ```
-Or connect the GitHub repo in vercel.com dashboard for auto-deploy.
+Or push to `main` with auto-deploy enabled in Vercel dashboard.
 
 ---
 
 ## Source material
 
-- All 30 law definitions: https://lawsofux.com (content written in Mongolian in data/laws.json)
-- Textures: https://texturelabs.org (Paper series, 360M + 374M)
-- Visual references: provided as ZIP by Anar-Erdene (refs 1–22, referenced in original handoff)
+- Law definitions: https://lawsofux.com — written in Mongolian in `data/laws.json`
+- Textures: https://texturelabs.org — Paper series 360M (cover) + 374M (pages)
+- Music: Jordan Critz · Gibran Alcocer & Andrea Vanzo · Myles Lloyd · Naomi Sharon
+- Visual references: ZIP provided by Anar-Erdene (refs 1–22, used during illustration design)
