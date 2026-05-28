@@ -76,40 +76,31 @@ export default function LoadingScreen() {
       <Corner pos="bl" />
       <Corner pos="br" />
 
-      {/* Wordmark — Playfair Display italic, book-cover style */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+      {/* Wordmark */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
         <span style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontStyle: "italic",
-          fontSize: "clamp(1rem, 3vw, 1.6rem)",
-          color: "rgba(240,237,230,0.35)",
-          letterSpacing: "0.35em",
+          fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
+          fontSize: "clamp(6rem, 16vw, 13rem)",
+          fontWeight: 400,
+          color: "#F0EDE6",
+          letterSpacing: "0.05em",
+          lineHeight: 1,
+          display: "block",
+          transform: "scaleX(0.68)",
+          transformOrigin: "center",
+        }}>
+          30 LAWS
+        </span>
+        <span style={{
+          fontFamily: "var(--font-dm-sans), sans-serif",
+          fontSize: "0.58rem",
+          fontWeight: 300,
+          color: "rgba(240,237,230,0.4)",
+          letterSpacing: "0.6em",
           textTransform: "uppercase",
           display: "block",
         }}>
           Laws of UX
-        </span>
-        <span style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontSize: "clamp(3.5rem, 10vw, 6.5rem)",
-          fontWeight: 700,
-          color: "#F0EDE6",
-          letterSpacing: "-0.02em",
-          lineHeight: 0.92,
-          display: "block",
-        }}>
-          30
-        </span>
-        <span style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontSize: "clamp(3.5rem, 10vw, 6.5rem)",
-          fontWeight: 700,
-          color: "#F0EDE6",
-          letterSpacing: "-0.02em",
-          lineHeight: 0.92,
-          display: "block",
-        }}>
-          Laws
         </span>
       </div>
 
