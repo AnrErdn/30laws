@@ -6,6 +6,7 @@ import SpreadLayout from "./book/SpreadLayout";
 import FlippingPage from "./book/FlippingPage";
 import TocOverlay from "./TocOverlay";
 import MusicPlayer from "./MusicPlayer";
+import LoadingScreen from "./LoadingScreen";
 
 // Spread content components
 import CoverSpread from "./spreads/CoverSpread";
@@ -124,6 +125,8 @@ export default function BookEngine({ laws }: BookEngineProps) {
   const flipBack  = flipState === "forward" ? target.left   : target.right;
 
   return (
+    <>
+    <LoadingScreen />
     <div className="w-screen h-screen flex items-center justify-center bg-black book-perspective overflow-hidden">
       {/* Book shadow */}
       <div
@@ -240,5 +243,6 @@ export default function BookEngine({ laws }: BookEngineProps) {
         }}
       />
     </div>
+    </>
   );
 }

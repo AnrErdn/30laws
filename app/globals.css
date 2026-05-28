@@ -130,6 +130,15 @@ html, body {
 /* ── No select during flip ───────────────────── */
 .no-select { user-select: none; }
 
+/* ── Loading screen ──────────────────────────── */
+@keyframes loading-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+.loading-progress {
+  animation: loading-progress 1.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
 /* ── Music player ────────────────────────────── */
 @keyframes vinyl-spin {
   from { transform: rotate(0deg); }
