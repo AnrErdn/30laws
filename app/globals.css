@@ -9,95 +9,123 @@
   --color-text-primary: #F0EDE6;
   --color-text-muted: #6B6B65;
   --color-rule: #2A2A26;
+  --color-spine: #080806;
+
+  --page-h: min(78vh, 640px);
+  --page-w: calc(var(--page-h) * 0.714);
+  --spine-w: 14px;
+  --book-w: calc(var(--page-w) * 2 + var(--spine-w));
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-html,
-body {
-  background: var(--color-page-bg);
+html, body {
+  background: #000;
   color: var(--color-text-primary);
-  overflow: hidden;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* Texture overlays */
-.texture-cover::after {
+/* ── Texture overlays ─────────────────────────── */
+.texture-cover {
+  background-image: url('/textures/paper-cover.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.texture-page {
+  background-image: url('/textures/paper-page.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* tint the paper texture to the design color */
+.texture-cover::before,
+.texture-page::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.20;
-  mix-blend-mode: overlay;
-  z-index: 10;
+  z-index: 0;
+}
+.texture-cover::before {
+  background: rgba(4, 4, 3, 0.72);
+}
+.texture-page::before {
+  background: rgba(14, 14, 12, 0.70);
 }
 
-.texture-page::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.09;
-  mix-blend-mode: overlay;
-  z-index: 10;
+/* content on textured pages must be above the tint */
+.page-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
 }
 
-/* Page flip perspective */
+/* ── Page flip ────────────────────────────────── */
 .book-perspective {
-  perspective: 2000px;
+  perspective: 3000px;
+  perspective-origin: 50% 50%;
 }
 
-/* Scrollable right page */
-.right-page-scroll {
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ── Scrollable right page ────────────────────── */
+.page-scroll {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #2A2A26 transparent;
 }
+.page-scroll::-webkit-scrollbar { width: 2px; }
+.page-scroll::-webkit-scrollbar-track { background: transparent; }
+.page-scroll::-webkit-scrollbar-thumb { background: #2A2A26; border-radius: 2px; }
 
-.right-page-scroll::-webkit-scrollbar {
-  width: 3px;
-}
-
-.right-page-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.right-page-scroll::-webkit-scrollbar-thumb {
-  background-color: #2A2A26;
-  border-radius: 2px;
-}
-
-/* Category tag */
+/* ── Typography helpers ───────────────────────── */
 .category-tag {
-  font-size: 0.625rem;
-  letter-spacing: 0.2em;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-family: var(--font-dm-sans);
 }
 
-/* Page number */
 .page-number {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.12em;
   color: var(--color-text-muted);
   font-family: var(--font-dm-sans);
 }
 
-/* Rule */
 .section-rule {
   border: none;
   border-top: 1px solid var(--color-rule);
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
 }
 
-/* Prevent text selection during page flip */
-.flipping {
-  user-select: none;
+/* ── Glass card (CSS liquid glass) ───────────── */
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.055) 0%,
+    rgba(255,255,255,0.02) 100%
+  );
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 4px 24px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  border-radius: 12px;
 }
+
+/* ── No select during flip ───────────────────── */
+.no-select { user-select: none; }

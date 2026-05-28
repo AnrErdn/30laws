@@ -11,7 +11,7 @@ type Choice = "ugly" | "beautiful" | null;
 
 export default function AestheticUsabilityDemo({ accentColor }: Props) {
   const [choice, setChoice] = useState<Choice>(null);
-  const [reset, setReset] = useState(false);
+  const [, setReset] = useState(false);
 
   const handleChoice = (c: "ugly" | "beautiful") => {
     if (choice !== null) return;

@@ -1,6 +1,6 @@
 import { laws } from "@/lib/laws";
-import BookClient from "@/components/BookClient";
+import BookEngine from "@/components/BookEngine";
 
 export default function Home() {
-  return <BookClient laws={laws} />;
+  return <BookEngine laws={laws} />;
 }
