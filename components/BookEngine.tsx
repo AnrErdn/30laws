@@ -230,6 +230,47 @@ export default function BookEngine({ laws }: BookEngineProps) {
         </button>
       )}
 
+      {/* Cover open hint — only on cover, pulsing */}
+      {currentIdx === 0 && flipState === "idle" && (
+        <div
+          className="fixed z-50 pointer-events-none animate-pulse"
+          style={{
+            bottom: "2rem",
+            left: "calc(50% + 3rem)",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            color: "rgba(240,237,230,0.28)",
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.55rem",
+            letterSpacing: "0.35em",
+          }}
+        >
+          OPEN
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+            <path d="M0 4H8M8 4L5 1M8 4L5 7" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      )}
+
+      {/* Page count — hidden on cover and back cover */}
+      {currentIdx > 0 && currentIdx < spreads.length - 1 && (
+        <div
+          className="fixed z-50 pointer-events-none"
+          style={{
+            bottom: "1.75rem",
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontFamily: "var(--font-dm-mono)",
+            fontSize: "0.5rem",
+            letterSpacing: "0.2em",
+            color: "rgba(240,237,230,0.2)",
+          }}
+        >
+          {currentIdx} / {spreads.length - 1}
+        </div>
+      )}
+
       <MusicPlayer />
 
       <TocOverlay
