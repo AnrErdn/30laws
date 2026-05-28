@@ -5,6 +5,7 @@ import { useFlipSound } from "@/hooks/useFlipSound";
 import SpreadLayout from "./book/SpreadLayout";
 import FlippingPage from "./book/FlippingPage";
 import TocOverlay from "./TocOverlay";
+import MusicPlayer from "./MusicPlayer";
 
 // Spread content components
 import CoverSpread from "./spreads/CoverSpread";
@@ -223,6 +224,8 @@ export default function BookEngine({ laws }: BookEngineProps) {
           </svg>
         </button>
       )}
+
+      <MusicPlayer />
 
       <TocOverlay
         laws={laws}
