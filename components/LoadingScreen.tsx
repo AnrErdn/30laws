@@ -80,14 +80,12 @@ export default function LoadingScreen() {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
         <span style={{
           fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
-          fontSize: "clamp(6rem, 16vw, 13rem)",
+          fontSize: "clamp(4rem, 14vw, 9rem)",
           fontWeight: 400,
           color: "#F0EDE6",
-          letterSpacing: "0.05em",
+          letterSpacing: "-0.02em",
           lineHeight: 1,
           display: "block",
-          transform: "scaleX(0.68)",
-          transformOrigin: "center",
         }}>
           30 LAWS
         </span>
