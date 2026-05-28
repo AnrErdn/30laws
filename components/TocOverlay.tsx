@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Law } from "@/types/law";
+import { useClickSound } from "@/hooks/useClickSound";
 
 const CATEGORY_ORDER = [
   "behavior-emotion",
@@ -36,6 +37,8 @@ interface TocOverlayProps {
 }
 
 export default function TocOverlay({ laws, isOpen, onClose, onSelectLaw }: TocOverlayProps) {
+  const playClick = useClickSound();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -124,7 +127,7 @@ export default function TocOverlay({ laws, isOpen, onClose, onSelectLaw }: TocOv
                     {catLaws.map((law) => (
                       <button
                         key={law.id}
-                        onClick={() => onSelectLaw(law.id)}
+                        onClick={() => { playClick(); onSelectLaw(law.id); }}
                         className="group w-full flex items-baseline gap-4 py-2 border-b transition-all duration-150 text-left"
                         style={{ borderColor: "rgba(42,42,38,0.4)" }}
                       >

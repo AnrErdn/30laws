@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { Law } from "@/types/law";
 import { useFlipSound } from "@/hooks/useFlipSound";
+import { useClickSound } from "@/hooks/useClickSound";
 import SpreadLayout from "./book/SpreadLayout";
 import FlippingPage from "./book/FlippingPage";
 import TocOverlay from "./TocOverlay";
@@ -73,6 +74,7 @@ export default function BookEngine({ laws }: BookEngineProps) {
   const [targetIdx, setTargetIdx] = useState(0);
   const [tocOpen, setTocOpen] = useState(false);
   const playSound = useFlipSound();
+  const playClick = useClickSound();
 
   const canGoForward = currentIdx < spreads.length - 1 && flipState === "idle";
   const canGoBack = currentIdx > 0 && flipState === "idle";
@@ -216,7 +218,7 @@ export default function BookEngine({ laws }: BookEngineProps) {
       {/* TOC button */}
       {currentIdx > 0 && (
         <button
-          onClick={() => setTocOpen(true)}
+          onClick={() => { playClick(); setTocOpen(true); }}
           className="fixed bottom-7 right-7 z-50 w-9 h-9 flex items-center justify-center border border-white/10 text-white/25 hover:text-white/60 hover:border-white/25 transition-all"
           aria-label="Contents (T)"
         >
