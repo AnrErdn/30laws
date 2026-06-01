@@ -17,6 +17,42 @@ import Law01Spread1 from "./spreads/law01/Spread1";
 import Law01Spread2 from "./spreads/law01/Spread2";
 import Law01Spread3 from "./spreads/law01/Spread3";
 import Law01Spread4 from "./spreads/law01/Spread4";
+import Law02Spread1 from "./spreads/law02/Spread1";
+import Law02Spread2 from "./spreads/law02/Spread2";
+import Law02Spread3 from "./spreads/law02/Spread3";
+import Law02Spread4 from "./spreads/law02/Spread4";
+import Law03Spread1 from "./spreads/law03/Spread1";
+import Law03Spread2 from "./spreads/law03/Spread2";
+import Law03Spread3 from "./spreads/law03/Spread3";
+import Law03Spread4 from "./spreads/law03/Spread4";
+import Law04Spread1 from "./spreads/law04/Spread1";
+import Law04Spread2 from "./spreads/law04/Spread2";
+import Law04Spread3 from "./spreads/law04/Spread3";
+import Law04Spread4 from "./spreads/law04/Spread4";
+import Law05Spread1 from "./spreads/law05/Spread1";
+import Law05Spread2 from "./spreads/law05/Spread2";
+import Law05Spread3 from "./spreads/law05/Spread3";
+import Law05Spread4 from "./spreads/law05/Spread4";
+import Law06Spread1 from "./spreads/law06/Spread1";
+import Law06Spread2 from "./spreads/law06/Spread2";
+import Law06Spread3 from "./spreads/law06/Spread3";
+import Law06Spread4 from "./spreads/law06/Spread4";
+import Law07Spread1 from "./spreads/law07/Spread1";
+import Law07Spread2 from "./spreads/law07/Spread2";
+import Law07Spread3 from "./spreads/law07/Spread3";
+import Law07Spread4 from "./spreads/law07/Spread4";
+import Law08Spread1 from "./spreads/law08/Spread1";
+import Law08Spread2 from "./spreads/law08/Spread2";
+import Law08Spread3 from "./spreads/law08/Spread3";
+import Law08Spread4 from "./spreads/law08/Spread4";
+import Law09Spread1 from "./spreads/law09/Spread1";
+import Law09Spread2 from "./spreads/law09/Spread2";
+import Law09Spread3 from "./spreads/law09/Spread3";
+import Law09Spread4 from "./spreads/law09/Spread4";
+import Law10Spread1 from "./spreads/law10/Spread1";
+import Law10Spread2 from "./spreads/law10/Spread2";
+import Law10Spread3 from "./spreads/law10/Spread3";
+import Law10Spread4 from "./spreads/law10/Spread4";
 import DefaultLawSpread from "./spreads/DefaultLawSpread";
 
 interface SpreadDef {
@@ -42,9 +78,30 @@ function buildSpreads(laws: Law[]): SpreadDef[] {
   spreads.push({ id: "law01-s3", left: <Law01Spread3.Left />, right: <Law01Spread3.Right law={law01} />, pageNum: 5 });
   spreads.push({ id: "law01-s4", left: <Law01Spread4.Left law={law01} />, right: <Law01Spread4.Right law={law01} />, pageNum: 7 });
 
-  // 6+: Laws 02–30 (1 spread each)
+  // Laws 02–10 (4 spreads each)
+  const fullLawSpreads: [Law, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>, React.ComponentType<{law: Law}>][] = [
+    [laws[1], Law02Spread1.Left, Law02Spread1.Right, Law02Spread2.Left, Law02Spread2.Right, Law02Spread3.Left, Law02Spread3.Right, Law02Spread4.Left, Law02Spread4.Right],
+    [laws[2], Law03Spread1.Left, Law03Spread1.Right, Law03Spread2.Left, Law03Spread2.Right, Law03Spread3.Left, Law03Spread3.Right, Law03Spread4.Left, Law03Spread4.Right],
+    [laws[3], Law04Spread1.Left, Law04Spread1.Right, Law04Spread2.Left, Law04Spread2.Right, Law04Spread3.Left, Law04Spread3.Right, Law04Spread4.Left, Law04Spread4.Right],
+    [laws[4], Law05Spread1.Left, Law05Spread1.Right, Law05Spread2.Left, Law05Spread2.Right, Law05Spread3.Left, Law05Spread3.Right, Law05Spread4.Left, Law05Spread4.Right],
+    [laws[5], Law06Spread1.Left, Law06Spread1.Right, Law06Spread2.Left, Law06Spread2.Right, Law06Spread3.Left, Law06Spread3.Right, Law06Spread4.Left, Law06Spread4.Right],
+    [laws[6], Law07Spread1.Left, Law07Spread1.Right, Law07Spread2.Left, Law07Spread2.Right, Law07Spread3.Left, Law07Spread3.Right, Law07Spread4.Left, Law07Spread4.Right],
+    [laws[7], Law08Spread1.Left, Law08Spread1.Right, Law08Spread2.Left, Law08Spread2.Right, Law08Spread3.Left, Law08Spread3.Right, Law08Spread4.Left, Law08Spread4.Right],
+    [laws[8], Law09Spread1.Left, Law09Spread1.Right, Law09Spread2.Left, Law09Spread2.Right, Law09Spread3.Left, Law09Spread3.Right, Law09Spread4.Left, Law09Spread4.Right],
+    [laws[9], Law10Spread1.Left, Law10Spread1.Right, Law10Spread2.Left, Law10Spread2.Right, Law10Spread3.Left, Law10Spread3.Right, Law10Spread4.Left, Law10Spread4.Right],
+  ];
+
   let pg = 9;
-  for (let i = 1; i < laws.length; i++) {
+  fullLawSpreads.forEach(([law, L1, R1, L2, R2, L3, R3, L4, R4]) => {
+    spreads.push({ id: `law0${law.id}-s1`, left: <L1 law={law} />, right: <R1 law={law} />, pageNum: pg });
+    spreads.push({ id: `law0${law.id}-s2`, left: <L2 law={law} />, right: <R2 law={law} />, pageNum: pg + 2 });
+    spreads.push({ id: `law0${law.id}-s3`, left: <L3 law={law} />, right: <R3 law={law} />, pageNum: pg + 4 });
+    spreads.push({ id: `law0${law.id}-s4`, left: <L4 law={law} />, right: <R4 law={law} />, pageNum: pg + 6 });
+    pg += 8;
+  });
+
+  // Laws 11–30 (1 spread each)
+  for (let i = 10; i < laws.length; i++) {
     const law = laws[i];
     spreads.push({
       id: `law-${law.id}`,
@@ -279,8 +336,12 @@ export default function BookEngine({ laws }: BookEngineProps) {
         onClose={() => setTocOpen(false)}
         onSelectLaw={(id) => {
           setTocOpen(false);
-          // find the spread for this law
-          const targetId = id === 1 ? "law01-s1" : `law-${id}`;
+          let targetId: string;
+          if (id <= 10) {
+            targetId = `law${String(id).padStart(2, "0")}-s1`;
+          } else {
+            targetId = `law-${id}`;
+          }
           const idx = spreads.findIndex(s => s.id === targetId);
           if (idx !== -1) flipTo(idx);
         }}
