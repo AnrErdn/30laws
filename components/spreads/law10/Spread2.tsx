@@ -59,7 +59,7 @@ function Right({ law }: { law: Law }) {
         <div className="mt-5">
           <h4 className="category-tag mb-2" style={{ color: law.accentColor, opacity: 0.7 }}>Яагаад ажилладаг вэ</h4>
           <p className="font-sans text-white/50 leading-relaxed" style={{ fontSize: "0.78rem" }}>
-            William Edmund Hick 1952 онд нотолсон: шийдвэр гаргах хугацаа нь сонголтын тооны логарифмтай пропорциональ. Apple TV remote нь Hick's Law-г hardware-д хэрэгжүүлсэн тод жишээ.
+            William Edmund Hick 1952 онд нотолсон: шийдвэр гаргах хугацаа нь сонголтын тооны логарифмтай пропорциональ. Apple TV remote нь Hick&apos;s Law-г hardware-д хэрэгжүүлсэн тод жишээ.
           </p>
         </div>
         <div className="absolute bottom-5 right-7 page-number">76</div>

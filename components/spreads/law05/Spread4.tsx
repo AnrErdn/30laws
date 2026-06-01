@@ -14,7 +14,7 @@ function Left({ law }: { law: Law }) {
           <h2 className="font-display text-white/80 leading-none" style={{ fontSize: "clamp(2rem,5vw,4rem)" }}>FEEL<br/>THE<br/>LAW</h2>
           <div className="mt-4 h-px w-12" style={{ background: law.accentColor, opacity: 0.5 }}/>
           <p className="font-sans text-white/40 mt-4 leading-relaxed" style={{ fontSize: "0.72rem" }}>
-            Хоёр интерфейсээс "тохиргоо" (⚙️) иконыг хэр хурдан олохыг мэдэрнэ үү.
+            Хоёр интерфейсээс &ldquo;тохиргоо&rdquo; (⚙️) иконыг хэр хурдан олохыг мэдэрнэ үү.
           </p>
         </div>
         <div className="p-4 relative z-10" style={{ borderLeft: `2px solid ${law.accentColor}`, background: `${law.accentColor}08` }}>

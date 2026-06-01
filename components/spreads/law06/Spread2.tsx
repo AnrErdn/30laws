@@ -61,7 +61,7 @@ function Right({ law }: { law: Law }) {
         <div className="mt-5">
           <h4 className="category-tag mb-2" style={{ color: law.accentColor, opacity: 0.7 }}>Яагаад ажилладаг вэ</h4>
           <p className="font-sans text-white/50 leading-relaxed" style={{ fontSize: "0.78rem" }}>
-            400ms бол тархины анхаарал таслах босго. Үүнээс удаан бол хэрэглэгч бодлоо өөр зүйл рүү шилжүүлж, "flow" алдана. IBM-ийн 1982 оны судалгаагаар энэ босгыг тогтоосон.
+            400ms бол тархины анхаарал таслах босго. Үүнээс удаан бол хэрэглэгч бодлоо өөр зүйл рүү шилжүүлж, &ldquo;flow&rdquo; алдана. IBM-ийн 1982 оны судалгаагаар энэ босгыг тогтоосон.
           </p>
         </div>
         <div className="absolute bottom-5 right-7 page-number">44</div>

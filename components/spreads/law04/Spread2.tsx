@@ -48,7 +48,7 @@ function Right({ law }: { law: Law }) {
         <div className="mt-5">
           <h4 className="category-tag mb-2" style={{ color: law.accentColor, opacity: 0.7 }}>Яагаад ажилладаг вэ</h4>
           <p className="font-sans text-white/50 leading-relaxed" style={{ fontSize: "0.78rem" }}>
-            Anchoring bias нь тархи эхний мэдээллийг "тулгуур" болгон ашигладаг психологийн хэлбэр. Дижитал болон физик маркетингт өргөн хэрэглэгддэг — дизайнер энэ механизмыг мэдэж байх нь чухал.
+            Anchoring bias нь тархи эхний мэдээллийг &ldquo;тулгуур&rdquo; болгон ашигладаг психологийн хэлбэр. Дижитал болон физик маркетингт өргөн хэрэглэгддэг — дизайнер энэ механизмыг мэдэж байх нь чухал.
           </p>
         </div>
         <div className="absolute bottom-5 right-7 page-number">28</div>

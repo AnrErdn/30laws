@@ -14,10 +14,19 @@ function Left() {
 
         {/* Back cover text */}
         <div className="space-y-6">
-          <p className="font-serif text-white/70 italic leading-relaxed" style={{ fontSize: "0.8rem", maxWidth: "240px" }}>
-            &ldquo;Дизайн бол зүгээр харагдах зүйл биш —
-            хүнийг мэдрүүлдэг зүйл.&rdquo;
-          </p>
+          <div style={{ maxWidth: "240px" }} className="space-y-3">
+            <p className="font-serif text-white/70 italic leading-relaxed" style={{ fontSize: "0.8rem" }}>
+              &ldquo;Чамд байх цаг хугацаа хязгаартай, тиймээс өөрийн цагаа бусдын амьдралаар амьдарч битгий үр.
+              Өөрийнхөөрөө амьдар.&rdquo;
+            </p>
+            <p className="font-sans text-white/30 leading-relaxed" style={{ fontSize: "0.65rem", fontStyle: "italic" }}>
+              &ldquo;Your time is limited, so don&apos;t waste it living someone else&apos;s life.
+              Live yours.&rdquo;
+            </p>
+            <p className="font-mono text-white/25" style={{ fontSize: "0.55rem", letterSpacing: "0.12em" }}>
+              — Steve Jobs
+            </p>
+          </div>
           <div className="h-px bg-white/10"/>
           <div className="space-y-1">
             <p className="font-sans text-white/35" style={{ fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>

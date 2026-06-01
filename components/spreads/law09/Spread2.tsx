@@ -65,7 +65,7 @@ function Right({ law }: { law: Law }) {
         <div className="mt-5">
           <h4 className="category-tag mb-2" style={{ color: law.accentColor, opacity: 0.7 }}>Яагаад ажилладаг вэ</h4>
           <p className="font-sans text-white/50 leading-relaxed" style={{ fontSize: "0.78rem" }}>
-            Nunes & Drèze-ийн судалгаагаар "endowed progress" (аль хэдийн тамгатай карт) нь хоосон картаас 82% илүү дуусгалтыг харуулсан. Адилхан хүчин чармайлт шаардагддаг ч мэдрэмж өөр.
+            Nunes &amp; Drèze-ийн судалгаагаар &ldquo;endowed progress&rdquo; (аль хэдийн тамгатай карт) нь хоосон картаас 82% илүү дуусгалтыг харуулсан. Адилхан хүчин чармайлт шаардагддаг ч мэдрэмж өөр.
           </p>
         </div>
         <div className="absolute bottom-5 right-7 page-number">68</div>

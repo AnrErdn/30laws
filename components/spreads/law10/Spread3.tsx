@@ -60,7 +60,7 @@ function Right({ law }: { law: Law }) {
           </div>
           <div style={{ border: `0.5px solid ${law.accentColor}40`, padding: "10px", borderRadius: "2px" }}>
             <p className="font-mono mb-2" style={{ fontSize: "0.45rem", color: law.accentColor, opacity: 0.6 }}>3 СОНГОЛТ</p>
-            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Хурдан шийдвэр. Conversion нэмэгдэнэ. Hick's Law дагасан.</p>
+            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Хурдан шийдвэр. Conversion нэмэгдэнэ. Hick&apos;s Law дагасан.</p>
           </div>
         </div>
         <div className="absolute bottom-5 right-7 page-number">78</div>

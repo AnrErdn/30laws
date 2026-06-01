@@ -55,11 +55,11 @@ function Right({ law }: { law: Law }) {
         <div className="grid grid-cols-2 gap-3 mt-4">
           <div style={{ border: "0.5px solid rgba(240,237,230,0.1)", padding: "10px", borderRadius: "2px" }}>
             <p className="font-mono text-white/20 mb-2" style={{ fontSize: "0.45rem" }}>ДЭЭД НАВ</p>
-            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Эрхий хуруу хүрэхэд хэцүү. Fitts's Law-г зөрчинө.</p>
+            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Эрхий хуруу хүрэхэд хэцүү. Fitts&apos;s Law-г зөрчинө.</p>
           </div>
           <div style={{ border: `0.5px solid ${law.accentColor}40`, padding: "10px", borderRadius: "2px" }}>
             <p className="font-mono mb-2" style={{ fontSize: "0.45rem", color: law.accentColor, opacity: 0.6 }}>ДООД НАВ</p>
-            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Эрхий хуруунд хамгийн ойр. Fitts's Law дагасан шийдэл.</p>
+            <p className="font-sans text-white/35 leading-relaxed" style={{ fontSize: "0.7rem" }}>Эрхий хуруунд хамгийн ойр. Fitts&apos;s Law дагасан шийдэл.</p>
           </div>
         </div>
         <div className="absolute bottom-5 right-7 page-number">54</div>

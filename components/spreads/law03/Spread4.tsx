@@ -32,7 +32,7 @@ function Right({ law }: { law: Law }) {
   const [mode, setMode] = useState<"raw" | "chunked">("raw");
   const [phase, setPhase] = useState<"show" | "input" | "result">("show");
   const [input, setInput] = useState("");
-  const target = mode === "raw" ? RAW : RAW;
+  const target = mode === "raw" ? RAW : CHUNKED;
 
   const start = () => {
     setPhase("show");

@@ -31,7 +31,7 @@ function Right({ law }: { law: Law }) {
   const diff = challenge - skill;
   const isFlow = Math.abs(diff) <= 15;
   const isBoredom = diff < -15;
-  const isAnxiety = diff > 15;
+  const _isAnxiety = diff > 15;
 
   const state = isFlow ? "FLOW" : isBoredom ? "УЙТГАР" : "СТРЕСС";
   const stateColor = isFlow ? law.accentColor : "rgba(240,237,230,0.3)";

@@ -94,7 +94,7 @@ function Right({ law }: { law: Law }) {
           {/* Result */}
           {chosen && elapsed !== null && (
             <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-4">
-              <p className="font-mono mb-1" style={{ fontSize: "0.5rem", color: law.accentColor, opacity: 0.7 }}>"{chosen}" — {elapsed}ms</p>
+              <p className="font-mono mb-1" style={{ fontSize: "0.5rem", color: law.accentColor, opacity: 0.7 }}>&ldquo;{chosen}&rdquo; — {elapsed}ms</p>
               <p className="font-sans text-white/50 leading-relaxed mb-2" style={{ fontSize: "0.7rem" }}>
                 {count <= 3 ? "Хурдан шийдсэн биз? Цөөн сонголт = хурдан шийдвэр."
                   : count <= 5 ? "Арай удсан биз? Сонголт нэмэгдэхийн хэрээр хугацаа нэмэгдэнэ."
