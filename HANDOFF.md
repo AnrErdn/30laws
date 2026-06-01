@@ -1,5 +1,5 @@
 # 30 LAWS — Project Handoff
-> Last updated: 2026-05-28  
+> Last updated: 2026-05-29  
 > Author: Anar-Erdene G.  
 > Stack: Next.js 14 · Tailwind CSS · Framer Motion · TypeScript  
 > Repo: https://github.com/AnrErdn/30laws  
@@ -33,10 +33,38 @@ A virtual book that teaches all 30 Laws of UX, written in Mongolian. It looks an
 | 3 | Stripe dashboard wireframe SVG | Digital example text + before/after contrast panel |
 | 4 | "FEEL THE LAW" header + context | Interactive demo: ugly vs beautiful button, CSS glass card |
 
-### Laws 02–30 (content ready, design incomplete)
-- All 30 laws are loaded from `data/laws.json` in Mongolian — every field is populated (title, definition, principle, physical example, digital example, pull quote, category).
-- Each law shows as **1 spread** using `DefaultLawSpread`: left page has law number + a placeholder circle, right page has all the text content.
-- The content displays correctly. **The only missing piece is custom illustrations.**
+### Laws 02–10 (fully built, 4 spreads each) ← Session 3
+Each law has the full 4-spread treatment matching Law 01:
+
+| Spread | Left | Right |
+|---|---|---|
+| 1 | Custom SVG illustration | Title + definition + principle |
+| 2 | Physical example diagram | Physical example text + pull quote |
+| 3 | Digital example diagram | Digital example text + before/after panel |
+| 4 | "FEEL THE LAW" + takeaway | Interactive demo |
+
+| Law | Illustration | Demo |
+|---|---|---|
+| 02 Choice Overload | Branching tree → chaos | Toggle 3 vs 12 options |
+| 03 Chunking | Scattered vs grouped dots | Memorize chunked vs raw digits |
+| 04 Cognitive Bias | Anchoring bars (same bar, different context) | Anchoring bias — high/low anchor → estimate |
+| 05 Cognitive Load | Multiple streams vs single clean path | Find ⚙️ in 15 icons vs 3 icons, timed |
+| 06 Doherty Threshold | 400ms timeline bar | Feel 100ms / 400ms / 800ms response delay |
+| 07 Fitts's Law | Bullseye concentric circles | Click 3 target sizes, timing shown |
+| 08 Flow | Diagonal flow channel diagram | Skill + challenge sliders → flow zone indicator |
+| 09 Goal-Gradient Effect | Accelerating dots toward goal | Two loyalty cards: 0% vs 20% pre-filled |
+| 10 Hick's Law | Log curve (options vs time) | Add menu options, decision complexity grows |
+
+### Laws 11–30 (content ready, design incomplete)
+- All 30 laws are loaded from `data/laws.json` in Mongolian — every field is populated.
+- Laws 11–30 each show as **1 spread** using `DefaultLawSpread`: placeholder circle left, all text right.
+- **Next session: Laws 11–20 get the same 4-spread treatment.**
+
+### UI layer — Session 3 additions
+- **Cover open hint** — "OPEN →" pulsing in DM Mono, bottom-right of cover, auto-hides on first flip.
+- **Page count indicator** — `1 / 36` bottom-center in DM Mono, hidden on cover and back cover.
+- **Loading screen** — font changed to Bebas Neue (same as cover), `scaleX` squish removed to match cover proportions. "Laws of UX" moved below as small DM Sans with wide tracking.
+- **Cover texture** — `Texturelabs_Paper_305M.jpg` added to `public/textures/`. Applied to front + back cover via `.texture-cover::after` with `mix-blend-mode: screen` at `opacity: 0.12`. Cover tint eased from 0.72 → 0.64.
 
 ### UI layer (ambient/chrome)
 - **Loading screen** — Mac/Figma style entry screen. Black background, Playfair Display serif wordmark ("Laws of UX" italic + "30 / Laws" bold), thin 1px progress bar, minimal corner bracket frames. JS-animated via `requestAnimationFrame`. Fades out after ~1.9s. Unmounts completely after fade.
@@ -78,13 +106,18 @@ components/
     CoverSpread.tsx         → Cover (left = pure black, right = "30 LAWS" title)
     BackCoverSpread.tsx     → Back cover (author info, quote) + right endpaper
     TocSpread.tsx           → Table of contents spread
-    DefaultLawSpread.tsx    → Template for laws 02–30
+    DefaultLawSpread.tsx    → Template for laws 11–30 (placeholder circle + all text)
 
-    law01/
-      Spread1.tsx     → Intro illustration + title + definition + principle
-      Spread2.tsx     → Physical example: Apple packaging + text + pull quote
-      Spread3.tsx     → Digital example: Stripe dashboard + text + contrast panel
-      Spread4.tsx     → Interactive demo: glass card, ugly vs beautiful button
+    law01/                  → 4 spreads (fully built)
+    law02/                  → 4 spreads (fully built) — Choice Overload
+    law03/                  → 4 spreads (fully built) — Chunking
+    law04/                  → 4 spreads (fully built) — Cognitive Bias
+    law05/                  → 4 spreads (fully built) — Cognitive Load
+    law06/                  → 4 spreads (fully built) — Doherty Threshold
+    law07/                  → 4 spreads (fully built) — Fitts's Law
+    law08/                  → 4 spreads (fully built) — Flow
+    law09/                  → 4 spreads (fully built) — Goal-Gradient Effect
+    law10/                  → 4 spreads (fully built) — Hick's Law
 
   illustrations/
     AestheticUsabilityIllustration.tsx  → Abstract SVG (rough vs refined)
@@ -115,16 +148,17 @@ public/
     drive-me-crazy.mp3     → Drive Me Crazy — Myles Lloyd
     time-and-trust.mp3     → Time And Trust — Naomi Sharon
   textures/
-    paper-cover.jpg   → Texturelabs_Paper_360M (cover grain)
-    paper-page.jpg    → Texturelabs_Paper_374M (interior grain)
+    paper-cover.jpg          → Texturelabs_Paper_360M (cover base grain)
+    paper-page.jpg           → Texturelabs_Paper_374M (interior grain)
+    Texturelabs_Paper_305M.jpg → kraft paper, blended over front+back cover via ::after
 ```
 
-### Dead code — delete these (from first build, replaced but not cleaned up)
-- `components/BookClient.tsx`
-- `components/CoverPage.tsx`
-- `components/ContentsPage.tsx`
-- `components/LawPage.tsx`
-- `components/demos/AestheticUsabilityDemo.tsx`
+### Dead code — deleted in Session 3 ✅
+- `components/BookClient.tsx` — gone
+- `components/CoverPage.tsx` — gone
+- `components/ContentsPage.tsx` — gone
+- `components/LawPage.tsx` — gone
+- `components/demos/AestheticUsabilityDemo.tsx` — gone
 
 ---
 
@@ -164,65 +198,44 @@ public/
 ```
 
 ### Spread navigation order
-| Index | ID | Content |
-|---|---|---|
-| 0 | `cover` | Front cover |
-| 1 | `toc` | Table of contents |
-| 2 | `law01-s1` | Law 01 · Spread 1 (intro) |
-| 3 | `law01-s2` | Law 01 · Spread 2 (physical example) |
-| 4 | `law01-s3` | Law 01 · Spread 3 (digital example) |
-| 5 | `law01-s4` | Law 01 · Spread 4 (interactive demo) |
-| 6 | `law-2` | Law 02 (1 spread) |
-| 7 | `law-3` | Law 03 (1 spread) |
-| … | … | … |
-| 35 | `law-30` | Law 30 (1 spread) |
-| 36 | `back-cover` | Back cover |
+| Index | ID | Content | Pages |
+|---|---|---|---|
+| 0 | `cover` | Front cover | — |
+| 1 | `toc` | Table of contents | — |
+| 2–5 | `law01-s1` … `law01-s4` | Law 01 (4 spreads) | 1–8 |
+| 6–9 | `law02-s1` … `law02-s4` | Law 02 (4 spreads) | 9–16 |
+| 10–13 | `law03-s1` … `law03-s4` | Law 03 (4 spreads) | 17–24 |
+| 14–17 | `law04-s1` … `law04-s4` | Law 04 (4 spreads) | 25–32 |
+| 18–21 | `law05-s1` … `law05-s4` | Law 05 (4 spreads) | 33–40 |
+| 22–25 | `law06-s1` … `law06-s4` | Law 06 (4 spreads) | 41–48 |
+| 26–29 | `law07-s1` … `law07-s4` | Law 07 (4 spreads) | 49–56 |
+| 30–33 | `law08-s1` … `law08-s4` | Law 08 (4 spreads) | 57–64 |
+| 34–37 | `law09-s1` … `law09-s4` | Law 09 (4 spreads) | 65–72 |
+| 38–41 | `law10-s1` … `law10-s4` | Law 10 (4 spreads) | 73–80 |
+| 42–61 | `law-11` … `law-30` | Laws 11–30 (1 spread each) | 81–120 |
+| 62 | `back-cover` | Back cover | — |
 
 ---
 
 ## What needs to be done — in priority order
 
-### 1. Custom SVG illustrations for Laws 02–30 ← biggest visual gap
-Every law's left page currently shows a generic placeholder circle. Each needs a law-specific abstract geometric illustration — same style as `AestheticUsabilityIllustration.tsx` (clean SVG, abstract, conceptual, no color except page tones).
+### 1. Laws 11–20 — 4-spread treatment ← next session
+Same pattern as Laws 02–10. Create `components/spreads/law{11–20}/Spread{1–4}.tsx`, wire into `buildSpreads()` in `BookEngine.tsx` before the `law-{n}` loop.
 
-The illustration goes in `components/illustrations/` as a `.tsx` file, then referenced in `DefaultLawSpread.tsx` (or in a per-law spread if you go multi-spread).
+Page numbers continue from 81 (Laws 11–20 will be pages 81–160, then Laws 21–30 start at 161).
 
-Each illustration should visually encode the law's core idea. Examples:
-- **Hick's Law** → many small diverging paths from one point → decision paralysis
-- **Fitts's Law** → concentric circles, closer/larger = easier to hit
-- **Miller's Law** → 7 dots grouped vs 12 scattered
-- **Gestalt Proximity** → dots clustered into implied shapes
-- **Zeigarnik Effect** → incomplete circle / interrupted line
+### 2. Laws 21–30 — 4-spread treatment ← session after
+Same as above.
 
-### 2. Delete dead code
-Delete these 5 files — they are never imported anywhere:
-- `components/BookClient.tsx`
-- `components/CoverPage.tsx`
-- `components/ContentsPage.tsx`
-- `components/LawPage.tsx`
-- `components/demos/AestheticUsabilityDemo.tsx`
+### 3. Interactive demos for Laws 11–30
+Each law's Spread4 right page needs a demo. Follow the exact pattern from Laws 02–10.
 
-### 3. Interactive demos for key laws
-Law 01 has the ugly/beautiful button demo. The other high-priority laws for demos:
+### 4. Multi-spread wiring — note on BookEngine
+`buildSpreads()` in `BookEngine.tsx` currently:
+- Laws 01–10: 4 spreads each (inline, not a loop)
+- Laws 11–30: `DefaultLawSpread` 1 spread each (loop `for i = 10; i < laws.length`)
 
-| Law | Demo idea |
-|---|---|
-| Hick's Law | Menu that adds options — watch decision time increase |
-| Miller's Law | Memory test: remember 5 items vs 12 items |
-| Fitts's Law | Click targets at different sizes and distances |
-| Zeigarnik Effect | Task you start but can't finish — shows incomplete tasks stay in memory |
-| Jakob's Law | Familiar vs unfamiliar UI pattern comparison |
-
-Each demo lives in `components/spreads/law{XX}/Spread4.tsx` following the Law 01 pattern.
-
-### 4. Multi-spread treatment for select laws
-Right now only Law 01 gets 4 spreads. The rest get 1. Two options:
-- **Option A**: Give all laws 4 spreads (consistent, most work)
-- **Option B**: Give only the "hero" laws (top 8-10) the full treatment, keep others at 1 spread
-
-Recommendation: Option B. Pick the laws with the most visual potential or the most important to the subject matter, build them out fully, keep the rest at 1 spread.
-
-To add spreads for a law: add spread components in `components/spreads/law{XX}/`, then add entries in `buildSpreads()` in `BookEngine.tsx` before the `law-{n}` entry.
+When adding Laws 11–20, add them to the `fullLawSpreads` array (same pattern as laws 02–10), or extract each batch into its own block.
 
 ### 5. Deploy to Vercel
 `npm run build` passes clean. Ready to deploy.
